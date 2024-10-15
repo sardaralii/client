@@ -2,18 +2,11 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Clone the Spring Pet Clinic project from your GitHub repository
-                checkout scm
-            }
-        }
-
-        stage('Build and Test') {
+        stage('Clean and Package') {
             steps {
                 // Compile and test using the Spring Boot Maven plugin
-                //bat './mvnw clean package -DskipTests'
-                bat './mvnw package'
+                bat './mvnw clean package'
+                //bat './mvnw package'
 
             }
         }
@@ -22,13 +15,6 @@ pipeline {
             steps {
                 // Build a Docker image using the Spring Boot build plugin
                 bat './mvnw spring-boot:build-image'
-            }
-        }
-
-        stage('Docker Images') {
-            steps {
-                // Build a Docker image using the Spring Boot build plugin
-                bat 'docker images'
             }
         }
 
