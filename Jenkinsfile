@@ -5,24 +5,21 @@ pipeline {
         stage('Clean and Package') {
             steps {
                 // Compile and test using the Spring Boot Maven plugin
-                bat './mvnw clean package'
-                //bat './mvnw package'
-
+                sh './mvnw clean package'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 // Build a Docker image using the Spring Boot build plugin
-                bat './mvnw spring-boot:build-image'
+                sh './mvnw spring-boot:build-image'
             }
         }
 
         stage('Run Application') {
             steps {
                 // Run the Spring Boot application to verify it works
-                bat './mvnw spring-boot:run'
-                //bat 'java -jar target/*.jar &'
+                sh './mvnw spring-boot:run'
             }
         }
     }
