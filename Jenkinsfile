@@ -14,6 +14,7 @@ pipeline {
                 // Compile and test using the Spring Boot Maven plugin
                 //sh './mvnw clean package -DskipTests'
                 echo "hello"
+                sh 'chmod +x mvnw'
                 sh './mvnw package'
                 //sh 'docker build -t tobi:latest .'
 
