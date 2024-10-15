@@ -13,7 +13,8 @@ pipeline {
             steps {
                 // Compile and test using the Spring Boot Maven plugin
                 //sh './mvnw clean package -DskipTests'
-                sh 'docker build -t tobi:latest .'
+                echo "hello"
+                //sh 'docker build -t tobi:latest .'
 
             }
         }
