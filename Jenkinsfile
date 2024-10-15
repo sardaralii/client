@@ -12,29 +12,33 @@ pipeline {
         stage('Build and Test') {
             steps {
                 // Compile and test using the Spring Boot Maven plugin
-                //sh './mvnw clean package -DskipTests'
-                //bat './mvnw package'
-                bat './mvnw spring-boot:run'
-                //sh 'docker build -t tobi:latest .'
+                //bat './mvnw clean package -DskipTests'
+                bat './mvnw package'
 
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                // Build a Docker image using the Spring Boot build plugin
+                bat './mvnw spring-boot:build-image'
+            }
+        }
+
+        stage('Docker Images') {
+            steps {
+                // Build a Docker image using the Spring Boot build plugin
+                bat 'docker images'
             }
         }
 
         stage('Run Application') {
             steps {
                 // Run the Spring Boot application to verify it works
-                bat './mvnw spring-boot:build-image'
+                bat './mvnw spring-boot:run'
                 //bat 'java -jar target/*.jar &'
-                //sh 'docker run'
             }
         }
-
-    //     stage('Build Docker Image') {
-    //         steps {
-    //             // Build a Docker image using the Spring Boot build plugin
-    //             sh './mvnw spring-boot:build-image'
-    //         }
-    //     }
     }
 
     post {
