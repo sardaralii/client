@@ -23,7 +23,7 @@ pipeline {
             steps {
                 // Run the Spring Boot application to verify it works
                 // sh './mvnw spring-boot:run'
-                sh 'docker run -it tobi'
+                sh 'docker run'
             }
         }
 
