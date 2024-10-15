@@ -13,8 +13,8 @@ pipeline {
             steps {
                 // Compile and test using the Spring Boot Maven plugin
                 //sh './mvnw clean package -DskipTests'
-                //bat 'chmod +x mvnw'
-                bat './mvnw package'
+                //bat './mvnw package'
+                bat './mvnw spring-boot:run'
                 //sh 'docker build -t tobi:latest .'
 
             }
@@ -23,8 +23,8 @@ pipeline {
         stage('Run Application') {
             steps {
                 // Run the Spring Boot application to verify it works
-                //bat './mvnw spring-boot:run'
-                bat 'java -jar target/*.jar &'
+                bat './mvnw spring-boot:build-image'
+                //bat 'java -jar target/*.jar &'
                 //sh 'docker run'
             }
         }
