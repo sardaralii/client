@@ -14,6 +14,7 @@ pipeline {
                 // Compile and test using the Spring Boot Maven plugin
                 //sh './mvnw clean package -DskipTests'
                 echo "hello"
+                sh './mvnw package'
                 //sh 'docker build -t tobi:latest .'
 
             }
@@ -23,7 +24,8 @@ pipeline {
             steps {
                 // Run the Spring Boot application to verify it works
                 // sh './mvnw spring-boot:run'
-                sh 'docker run'
+                sh 'java -jar app/*.jar &'
+                //sh 'docker run'
             }
         }
 
