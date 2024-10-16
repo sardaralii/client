@@ -2,37 +2,45 @@ pipeline {
     agent any
 
     stages {
-        stage('Clean and Package') {
+        stage('Checkout') {
             steps {
-                // Compile and test using the Spring Boot Maven plugin
+                // Clone the Git repository
+                git 'git@github.com:sardaralii/client.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                // Build the application
                 sh './mvnw clean package'
             }
         }
-
         stage('Build Docker Image') {
             steps {
-                // Build a Docker image using the Spring Boot build plugin
-                sh './mvnw spring-boot:build-image'
+                // Build the Docker image
+                sh 'docker build -t pring-petclinic .'
             }
         }
-
-        stage('Run Application') {
+        stage('Run Tests') {
             steps {
-                // Run the Spring Boot application to verify it works
-                sh './mvnw spring-boot:run'
+                // Run your tests here (if applicable)
+                // sh './mvnw test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Optionally push the image to Docker Hub or a private registry
+                // sh 'docker push your-dockerhub-username/pring-petclinic:latest'
+                
+                // Run the Docker container
+                sh 'docker run -d -p 8080:8080 pring-petclinic'
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline finished running.'
-        }
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed during Build and Test.'
+            // Clean up the workspace
+            cleanWs()
         }
     }
 }
