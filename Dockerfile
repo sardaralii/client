@@ -1,19 +1,14 @@
-# Stage 1: Build the application
-FROM openjdk:17-slim as build
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:17-jdk-slim
+
+# Set the working directory inside the container
 WORKDIR /app
 
-# Install Maven
-RUN apt-get update && apt-get install -y maven
+# Copy the JAR file from the target directory (build output) into the container
+COPY target/*.jar app.jar
 
-# Copy the project files
-COPY . .
-
-# Build the application
-RUN mvn clean package -DskipTests
-
-# Stage 2: Create the final image
-FROM openjdk:17-slim
-WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
+# Expose the default port Spring Boot runs on
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# Run the application using the JAR file
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
